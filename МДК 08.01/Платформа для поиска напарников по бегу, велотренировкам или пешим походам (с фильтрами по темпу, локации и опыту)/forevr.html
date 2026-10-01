@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Фильтры — Поиск напарника</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+    }
+    h1 {
+      text-align: center;
+    }
+    .filters {
+      background: #fff;
+      padding: 15px;
+      margin: 0 auto;
+      max-width: 400px;
+      border: 1px solid #ddd;
+    }
+    .filters label {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .filters select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 4px;
+    }
+    .filters button {
+      margin-top: 15px;
+      padding: 8px 16px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Фильтры поиска</h1>
+
+  <form class="filters" id="filterForm" action="index.html" method="get">
+    <label>
+      Вид активности
+      <select name="activity">
+        <option value="">Все</option>
+        <option value="run">Бег</option>
+        <option value="bike">Велоспорт</option>
+        <option value="hike">Пешие походы</option>
+      </select>
+    </label>
+
+    <label>
+      Локация
+      <select name="location">
+        <option value="">Все города</option>
+        <option value="moscow">Москва</option>
+        <option value="spb">Санкт-Петербург</option>
+        <option value="kazan">Казань</option>
+      </select>
+    </label>
+
+    <label>
+      Темп
+      <select name="pace">
+        <option value="">Любой</option>
+        <option value="slow">Медленный</option>
+        <option value="medium">Средний</option>
+        <option value="fast">Быстрый</option>
+      </select>
+    </label>
+
+    <label>
+      Опыт
+      <select name="experience">
+        <option value="">Любой</option>
+        <option value="beginner">Начинающий</option>
+        <option value="intermediate">Средний</option>
+        <option value="advanced">Продвинутый</option>
+      </select>
+    </label>
+
+    <button type="submit">Показать напарников</button>
+  </form>
+
+  <div style="text-align:center; margin-top:15px;">
+    <a href="index.html">Показать всех без фильтров</a>
+  </div>
+
+  <script>
+    // Можно добавить предзаполнение из URL, если нужно:
+    const params = new URLSearchParams(window.location.search);
+    const form = document.getElementById("filterForm");
+
+    if (params.get("activity")) form.activity.value = params.get("activity");
+    if (params.get("location")) form.location.value = params.get("location");
+    if (params.get("pace")) form.pace.value = params.get("pace");
+    if (params.get("experience")) form.experience.value = params.get("experience");
+  </script>
+</body>
+</html>
