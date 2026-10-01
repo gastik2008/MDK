@@ -13,29 +13,9 @@
     h1 {
       text-align: center;
     }
-    .filters {
-      background: #fff;
-      padding: 15px;
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-    }
-    .filters label {
-      display: block;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-    .filters select {
-      width: 100%;
-      padding: 6px;
-      margin-top: 4px;
-    }
-    .filters button {
-      margin-top: 15px;
-      padding: 8px 16px;
-      background: #2563eb;
-      color: #fff;
-      border: none;
-      cursor: pointer;
+    .back-link {
+      text-align: center;
+      margin-bottom: 15px;
     }
     .partners {
       display: flex;
@@ -68,51 +48,9 @@
   </style>
 </head>
 <body>
-    <header>
-        <h1>Поиск напарника для спорта</h1>
-
-  <div class="filters">
-    <label>
-      Вид активности
-      <select id="activity">
-        <option value="">Все</option>
-        <option value="run">Бег</option>
-        <option value="bike">Велоспорт</option>
-        <option value="hike">Пешие походы</option>
-      </select>
-    </label>
-
-    <label>
-      Локация
-      <select id="location">
-        <option value="">Все города</option>
-        <option value="moscow">Москва</option>
-        <option value="spb">Санкт-Петербург</option>
-        <option value="kazan">Казань</option>
-      </select>
-    </label>
-
-    <label>
-      Темп
-      <select id="pace">
-        <option value="">Любой</option>
-        <option value="slow">Медленный</option>
-        <option value="medium">Средний</option>
-        <option value="fast">Быстрый</option>
-      </select>
-    </label>
-
-    <label>
-      Опыт
-      <select id="experience">
-        <option value="">Любой</option>
-        <option value="beginner">Начинающий</option>
-        <option value="intermediate">Средний</option>
-        <option value="advanced">Продвинутый</option>
-      </select>
-    </label>
-
-    <button id="applyFilters">Применить фильтры</button>
+  <h1>Найденные напарники</h1>
+  <div class="back-link">
+    <a href="filters.html">← Вернуться к фильтрам</a>
   </div>
 
   <div class="partners" id="partnersList"></div>
@@ -166,6 +104,16 @@
     const paceLabels = { slow: "Медленный", medium: "Средний", fast: "Быстрый" };
     const experienceLabels = { beginner: "Начинающий", intermediate: "Средний", advanced: "Продвинутый" };
 
+    function getParams() {
+      const params = new URLSearchParams(window.location.search);
+      return {
+        activity: params.get("activity") || "",
+        location: params.get("location") || "",
+        pace: params.get("pace") || "",
+        experience: params.get("experience") || ""
+      };
+    }
+
     function render(list) {
       const container = document.getElementById("partnersList");
       container.innerHTML = "";
@@ -194,28 +142,21 @@
       });
     }
 
-    function applyFilters() {
-      const activity = document.getElementById("activity").value;
-      const location = document.getElementById("location").value;
-      const pace = document.getElementById("pace").value;
-      const experience = document.getElementById("experience").value;
+    function applyFiltersFromURL() {
+      const f = getParams();
 
       const filtered = partners.filter(p => {
-        if (activity && p.activity !== activity) return false;
-        if (location && p.location !== location) return false;
-        if (pace && p.pace !== pace) return false;
-        if (experience && p.experience !== experience) return false;
+        if (f.activity && p.activity !== f.activity) return false;
+        if (f.location && p.location !== f.location) return false;
+        if (f.pace && p.pace !== f.pace) return false;
+        if (f.experience && p.experience !== f.experience) return false;
         return true;
       });
 
       render(filtered);
     }
 
-    document.getElementById("applyFilters").addEventListener("click", applyFilters);
-
-    // Показать всех при загрузке
-    render(partners);
+    applyFiltersFromURL();
   </script>
-    </header>
 </body>
 </html>
